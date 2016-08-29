@@ -1,0 +1,12 @@
+[
+  {"id": "home", "name":"Home"},
+  {"id": "Simple", "name":"Simple example"},
+  {"id": "settings", "name":"Settings"},
+  {"id": "home", "name":"Home1"},
+  {"id": "Simple", "name":"Simple example1"},
+  {"id": "settings", "name":"Settings1"},
+  {"id": "home", "name":"Home2"},
+  {"id": "Simple", "name":"Simple example2"},
+  {"id": "settings", "name":"Settings2"},
+  {"id": "home", "name":"Home3"},
+]

@@ -13,6 +13,7 @@ import sections from '../sections.json'
 
 const DRAWER_WIDTH_LEFT = 55
 
+
 class SideMenu extends Component{
   constructor(props){
     super(props)
@@ -21,7 +22,10 @@ class SideMenu extends Component{
         rowHasChanged : (row1,row2) => row1 !== row2,
       }).cloneWithRows(sections),
     }
+
+
   }
+
   sectionClick(id,name){
     this.props.onItemClick(id,name)
     this.drawer.closeDrawer()
@@ -29,25 +33,25 @@ class SideMenu extends Component{
   _renderDrawerRow(item){
     return (
       <TouchableHighlight
-      onPress = {() => {
-        return this.sectionClick(item.id,item.name)
-      }}
+      onPress = {() => this.sectionClick(item.id,item.name)}
       >
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>{item.name}</Text>
-          </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionText}>{item.name}</Text>
+        </View>
       </TouchableHighlight>
     )
   }
+
   _renderDrawerContent(){
     return (
-      <Image source={require('./images/background.png')} style={styles.backgroundImage}>
-        <ListView
-          style={styles.drawerListViewStyle}
-          dataSource={this.state.drawerDataSource}
-          renderRow={this._renderDrawerRow.bind(this)}
-        />
-    </Image>
+        <View>
+          <Text> {this.props.name} </Text>
+          <ListView
+            style={styles.drawerListViewStyle}
+            dataSource={this.state.drawerDataSource}
+            renderRow={this._renderDrawerRow.bind(this)}
+          />
+        </View>
     )
   }
   openDrawer(){
@@ -71,6 +75,10 @@ class SideMenu extends Component{
        {this.props.children}
        </DrawerLayoutAndroid>
    )
+  }
+
+  componentWillMount(){
+
   }
 }
 

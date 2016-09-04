@@ -1,5 +1,6 @@
 [
   {"id": "home", "name":"Home"},
   {"id": "Simple", "name":"Simple example"},
+  {"id": "Share", "name":"Share with Facebook"},
   {"id": "settings", "name":"Settings"},
 ]

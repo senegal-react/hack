@@ -7,69 +7,65 @@ import {
   Text,
   View,
   Image,
+  Animated,
 } from 'react-native';
 import Relay from 'react-relay';
+
+import {
+  GraphRequest,
+  GraphRequestManager,
+  AccessToken,
+} from 'react-native-fbsdk';
+
 import Simple from './Simple';
 import Collection from './Collection';
 
-import SideMenu from './SideMenu'
+import SideMenu from './SideMenu';
 
-var _navigator;
+import LoginWithFB, {ShareWithFB, GraphApi} from './FacebookSDK';
 
-var sideMenu;
 
-const IMG_DIR = './src/images';
 
-BackAndroid.addEventListener('hardwareBackPress', () => {
-  if (_navigator && _navigator.getCurrentRoutes().length > 1) {
-    _navigator.pop();
-    return true;
-  }
-  return false;
-});
-
+let _drawer;
+let _username;
 
 class FixApp extends Component {
   constructor(){
     super()
     this.state = {
-      id : '',
-      sectionName : 'Home',
-      connected: true,
-      sm: null,
+      connected: false,
+      someAnimatedValue: new Animated.Value(0),
+      username: '',
+      graphApi: new GraphApi('/me'),
     }
 
     this._renderScene = this._renderScene.bind(this)
   }
 
-  _navigationBar(){
-    return (
-      <Navigator.NavigationBar
-      routeMapper = {this._routeMapper}
-      style = {styles.navBarStyle}
-      />
-    )
+  async logIn(username: ?String, connected: ?Boolean){
+    this.setState({
+      username: username,
+      connected: connected,
+    })
   }
+
   _routeMapper = {
       Title : (route,navigator,index,state) => {
         return (
           <Text
-        style={[styles.navBarText,styles.navBarTitleText]}
-        >
-          {route.name}
-        </Text>
+            style={[styles.navBarText,styles.navBarTitleText]}
+          >
+            {route.name}
+          </Text>
       )
       },
       LeftButton : (route,navigator,index,state) => {
         let imgsrc =  require(`./images/ic_arrow_back_black_24dp.png`)
         let onPress = () => {navigator.pop()}
-        console.log('sidemenu debug')
-        console.log(route.passProps)
         if(index === 0){
           imgsrc = require(`./images/ic_menu_black_24dp.png`)
-          onPress = () => {sideMenu.openDrawer()}
+          onPress = () => {_drawer.openDrawer()}
         }
-
         return (
           <TouchableHighlight
             onPress = {onPress}
@@ -86,9 +82,17 @@ class FixApp extends Component {
       }
   }
 
-  _renderScene(route, navigator ) {
-    _navigator = navigator;
+  _navigationBar(){
+    if(this.state.connected)
+    return (
+      <Navigator.NavigationBar
+      routeMapper = {this._routeMapper}
+      style = {styles.navBarStyle}
+      />
+    )
+  }
 
+  _renderScene(route, navigator ) {
     switch (route.id) {
       case 'Simple':
         return (
@@ -98,20 +102,33 @@ class FixApp extends Component {
             {...route.passProps}
           />
         )
-      case 'Collection':
+      case 'Share':
         return (
-          <Simple
-            navigator={navigator}
-          />
+          <Image source={require('./images/background.png')} style={styles.backgroundImage}>
+            <View style={styles.view}>
+              <TouchableHighlight onPress={
+                () => {
+                  navigator.replace({id: ''})
+                }
+              }
+              >
+                <Text style={styles.link}>Welcome!!!</Text>
+              </TouchableHighlight>
+              <ShareWithFB />
+            </View>
+          </Image>
         )
       default:
+      if(!this.state.connected)
+      return (
+        <LoginWithFB
+          navigator={navigator}
+          logIn={this.logIn.bind(this)}
+        />
+      )
         return (
           <View style={styles.view}>
-            <TouchableHighlight onPress={() => _navigator.replace({id: ''})}>
-              <Text style={styles.link}>Welcome!!!</Text>
-            </TouchableHighlight>
-
-
+            <Text> Welcome {this.state.username} </Text>
           </View>
         )
     }
@@ -126,9 +143,9 @@ class FixApp extends Component {
   }
 
   render() {
+    //console.log(...this.state);
     return (
-      <Image source={require('./images/background.png')} style={styles.backgroundImage}>
-      <SideMenu ref={'drawer'} onItemClick={this.handleItemClick.bind(this)} >
+      <SideMenu ref={'drawer'} onItemClick={this.handleItemClick.bind(this)} name={this.state.username} >
         <Navigator
           ref = "navigator"
           initialRoute={{ id: '', name: '', passProps: {}}}
@@ -142,25 +159,31 @@ class FixApp extends Component {
           navigationBar = {this._navigationBar()}
         />
       </SideMenu>
-    </Image>
     );
   }
 
-  componentDidMount(){
-    // BackAndroid.addEventListener('hardwareBackPress', () => {
-    //   const navigator = this.refs["navigator"]
-    //   if(navigator && navigator.getCurrentRoutes().length > 1){
-    //     navigator.pop()
-    //     return true
-    //   }
-    //   return false
-    // })
-    //console.log('didMount')
-    this.state = {
-      sm: this.refs['drawer']
-    }
-    sideMenu = this.refs['drawer'];
-    //console.log(sideMenu);
+  async componentDidMount(){
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      const {navigator} = this.refs
+      if(navigator && navigator.getCurrentRoutes().length > 1){
+        navigator.pop()
+        return true
+      }
+      return false
+    })
+    _drawer = this.refs['drawer'];
+    AccessToken.getCurrentAccessToken().then(
+      (data) => {
+        //alert(data.accessToken.toString())
+        let x = this.state.graphApi.getApi()
+        console.log(x);
+        // this.setState({
+        //   connected: true,
+        //   username: 'Pape',
+        // })
+
+      }
+    )
   }
 };
 

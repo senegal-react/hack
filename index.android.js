@@ -26,15 +26,15 @@ class Mi7App extends Component {
     const viewerRoute = new ViewerRoute();
     return (
         <RootContainer
-           Component={FixApp}
-           route={viewerRoute}
-           renderLoading={() => (<View style={styles.container}><Text>Loading...</Text></View>)
-           }
-           renderFetched={
+          Component={FixApp}
+          route={viewerRoute}
+          renderLoading={() => (<View style={styles.container}><Text>Loading...</Text></View>)
+          }
+          renderFetched={
              (data) =>(<FixApp {...this.props} {...data} />)
           }
           renderFailure={function(error, retry) {
-           return (<View><Text>{error.message}</Text></View>)
+            return (<View><Text>{error.message}</Text></View>)
           }}
           forceFetch={true}
         />

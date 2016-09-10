@@ -1,5 +1,7 @@
-# hack
-This react-native project focus primary on android platform, we will try to hack and test react-native and relay features
+# MyReactNativeKatas
+
+This react-native project focus primary on android platform, we will try to hack and test react-native and relay features 
+
 
 # Navigation
 # DrawerLayout

@@ -9,7 +9,7 @@ import {
   Text,
   Image,
 } from 'react-native'
-import sections from '../sections.json'
+import sections from './sections.json'
 
 const DRAWER_WIDTH_LEFT = 55
 

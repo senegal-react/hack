@@ -17,23 +17,19 @@ import {
   AccessToken,
 } from 'react-native-fbsdk';
 
-import Simple from './Simple';
-import Collection from './Collection';
+import {Simple, Collection} from './components';
 
 import SideMenu from './SideMenu';
 
 import LoginWithFB, {ShareWithFB, GraphApi} from './FacebookSDK';
 
-
-
 let _drawer;
-let _username;
 
-class FixApp extends Component {
-  constructor(){
-    super()
+class AppNavigator extends Component {
+  constructor(props){
+    super(props)
     this.state = {
-      connected: false,
+      connected: props.connected,
       someAnimatedValue: new Animated.Value(0),
       username: '',
       graphApi: new GraphApi('/me'),
@@ -187,7 +183,7 @@ class FixApp extends Component {
   }
 };
 
-export default Relay.createContainer(FixApp, {
+export default Relay.createContainer(AppNavigator, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {

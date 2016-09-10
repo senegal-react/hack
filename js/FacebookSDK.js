@@ -24,12 +24,11 @@ export default class LoginWithFB extends Component {
   //Create response callback.
   _responseInfoCallback(error: ?Object, result: ?Object) {
     if (error) {
-      alert('Error fetching data: ' + error.toString());
+      //alert('Error fetching data: ' + error.toString());
     } else {
       //alert('Success fetching data: ' + result);
       let logIn = this.props.logIn;
-      console.log(logIn)
-       logIn(result.name,true)
+      logIn(result.name,true)
       this.props.navigator.replace({id: 'Simple', name: `Welcome ${result.name}`, passProps:{...result}})
     }
   }
@@ -87,8 +86,7 @@ export class GraphApi {
   //Create response callback.
   _responseInfoCallback(error: ?Object, result: ?Object) {
     if (error) {
-      alert('Error fetching data: ' + error.toString());
-      console.log(error);
+      //alert('Error fetching data: ' + error.toString());
       this.result =  error
     } else {
       this.result = result

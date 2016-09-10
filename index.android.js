@@ -9,8 +9,8 @@ import {
   StyleSheet,
 } from 'react-native';
 import Relay, {RootContainer} from 'react-relay';
-import FixApp from './src/components/FixApp';
-import ViewerRoute from './src/routes/ViewerRoute';
+import AppNavigator from './js/AppNavigator';
+import {UserRoute} from './js/routes/';
 import config from './config';
 
 
@@ -21,17 +21,17 @@ Relay.injectNetworkLayer(
   })
 );
 
-class Mi7App extends Component {
+class App extends Component {
   render() {
-    const viewerRoute = new ViewerRoute();
+    const userRoute = new UserRoute();
     return (
         <RootContainer
-          Component={FixApp}
-          route={viewerRoute}
+          Component={AppNavigator}
+          route={userRoute}
           renderLoading={() => (<View style={styles.container}><Text>Loading...</Text></View>)
           }
           renderFetched={
-             (data) =>(<FixApp {...this.props} {...data} />)
+             (data) =>(<AppNavigator {...this.props} {...data} connected={true} />)
           }
           renderFailure={function(error, retry) {
             return (<View><Text>{error.message}</Text></View>)
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 })
 
-AppRegistry.registerComponent('mi7', () => Mi7App);
+AppRegistry.registerComponent('mi7', () => App);

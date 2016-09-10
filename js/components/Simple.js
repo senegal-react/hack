@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Relay from 'react-relay';
-import Back from './Back';
 
 import {
   View,

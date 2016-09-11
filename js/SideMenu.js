@@ -48,13 +48,28 @@ class SideMenu extends Component{
             style={styles.drawerListViewStyle}
             dataSource={this.state.drawerDataSource}
             renderRow={this._renderDrawerRow.bind(this)}
+            renderSeparator={(sectionID,rowID) => this._renderSeparator(sectionID,rowID)}
           />
         </View>
     )
   }
+
+  _renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+    return (
+      <View
+        key={`${sectionID}-${rowID}`}
+        style={{
+          height: adjacentRowHighlighted ? 4 : 1,
+          backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
+        }}
+      />
+    );
+  }
+
   openDrawer(){
     this.drawer.openDrawer()
   }
+
   render(){
     return (
       <DrawerLayoutAndroid
@@ -81,7 +96,8 @@ var styles = StyleSheet.create({
     height: 56,
   },
   section:{
-    height:50,
+    height: 50,
+    justifyContent: 'center',
   },
   sectionText:{
     fontSize : 18,
@@ -90,10 +106,7 @@ var styles = StyleSheet.create({
     paddingLeft: 5,
   },
   drawerListViewStyle :{
-    paddingTop:40,
-  },
-  listStyle : {
-    paddingTop : 20,
+    paddingTop:1,
   },
   username:{
     height: 120,

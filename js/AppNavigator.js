@@ -40,7 +40,8 @@ class AppNavigator extends Component {
       graphApi: new GraphApi('/me'),
     }
 
-    this._renderScene = this._renderScene.bind(this)
+    this._renderScene = this._renderScene.bind(this);
+    this._handleBackButton = this._handleBackButton.bind(this);
   }
 
   async logIn(username: ?String, connected: ?Boolean){
@@ -54,12 +55,10 @@ class AppNavigator extends Component {
   _routeMapper = {
       Title : (route,navigator,index,state) => {
         return (
-          <Text
-            style={[styles.navBarText,styles.navBarTitleText]}
-          >
+          <Text style={[styles.navBarText,styles.navBarTitleText]} >
             {route.name}
           </Text>
-      )
+        )
       },
       LeftButton : (route,navigator,index,state) => {
         let imgsrc =  require(`./images/ic_arrow_back_black_24dp.png`)
@@ -69,9 +68,7 @@ class AppNavigator extends Component {
           onPress = () => {_drawer.openDrawer()}
         }
         return (
-          <TouchableHighlight
-            onPress = {onPress}
-           >
+          <TouchableHighlight onPress = {onPress} >
             <Image
             source={imgsrc}
             style={styles.navBarLeftItemStyle}
@@ -159,7 +156,7 @@ class AppNavigator extends Component {
   }
 
   componentWillUnmount(){
-    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackAndroid.removeEventListener('hardwareBackPress', this._handleBackButton);
   }
 
   render() {

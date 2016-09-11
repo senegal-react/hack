@@ -54,8 +54,7 @@ class App extends Component {
     AsyncStorage.getItem(UID_APP, (err, result) => {
       const uid = JSON.parse(result);
       this.setState({
-        connected: uid.connected,
-        username: uid.username,
+        ...uid
       })
     });
   }

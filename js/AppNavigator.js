@@ -138,8 +138,25 @@ class AppNavigator extends Component {
     this.refs["navigator"].push({id:id, name: name, passProps: {}})
   }
 
+  _handleBackButton(){
+    const {navigator} = this.refs
+    if(navigator && navigator.getCurrentRoutes().length > 1){
+      navigator.pop()
+      return true
+    }
+    return false
+  }
+
+  componentDidMount(){
+    BackAndroid.addEventListener('hardwareBackPress', this._handleBackButton)
+    _drawer = this.refs['drawer'];
+  }
+
+  componentWillUnmount(){
+    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
   render() {
-    //console.log(...this.state);
     return (
       <SideMenu ref={'drawer'} onItemClick={this.handleItemClick.bind(this)} name={this.state.username} >
         <Navigator
@@ -158,29 +175,6 @@ class AppNavigator extends Component {
     );
   }
 
-  async componentDidMount(){
-    BackAndroid.addEventListener('hardwareBackPress', () => {
-      const {navigator} = this.refs
-      if(navigator && navigator.getCurrentRoutes().length > 1){
-        navigator.pop()
-        return true
-      }
-      return false
-    })
-    _drawer = this.refs['drawer'];
-    AccessToken.getCurrentAccessToken().then(
-      (data) => {
-        //alert(data.accessToken.toString())
-        let x = this.state.graphApi.getApi()
-        console.log(x);
-        // this.setState({
-        //   connected: true,
-        //   username: 'Pape',
-        // })
-
-      }
-    )
-  }
 };
 
 export default Relay.createContainer(AppNavigator, {

@@ -1,6 +1,6 @@
 [
-  {"id": "home", "name":"Home"},
-  {"id": "Simple", "name":"Simple example"},
+  {"id": "Home", "name":"Home"},
+  {"id": "Simple", "name":"♣ React world!"},
   {"id": "Share", "name":"Share with Facebook"},
-  {"id": "settings", "name":"Settings"},
+  {"id": "Settings", "name":"Settings"},
 ]

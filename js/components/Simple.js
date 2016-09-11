@@ -39,7 +39,12 @@ class Simple extends Component {
          isLoadingTail: true
      });
 
-     sections.push({id:'new', name:'Refreshed new data :' + Math.round(Math.random(9)*100)})
+     [
+       {"id": "React", "name":"React.js"},
+       {"id": "React-native", "name":"React-Native"},
+       {"id": "Relay", "name":"Relay"}
+     ].map(item => sections.push(item));
+
      this.setState({
        dataSource : new ListView.DataSource({
          rowHasChanged : (row1,row2) => row1 !== row2,
@@ -51,19 +56,14 @@ class Simple extends Component {
      });
    }
 
-   refreshDataSource(top){
-     if(top)sections.unshift({id:'new', name:'Refreshed new data :' + Math.round(Math.random(9)*100)})
-     else sections.push({id:'new', name:'Refreshed new data :' + Math.round(Math.random(9)*100)})
-     this.setState({
-       dataSource : new ListView.DataSource({
-         rowHasChanged : (row1,row2) => row1 !== row2,
-       }).cloneWithRows(sections)
-     })
-   }
-
   _onRefresh() {
-    this.setState({refreshing: true})
-    sections.unshift({id:'new', name:'Refreshed new data :' + Math.round(Math.random(9)*100)})
+    this.setState({refreshing: true});
+    [
+      {"id": "Flow", "name":"Flow"},
+      {"id": "Jest", "name":"Jest"},
+      {"id": "Enzyme", "name":"Enzyme"}
+    ].map(item => sections.unshift(item))
+
     this.setState({
       dataSource : new ListView.DataSource({
         rowHasChanged : (row1,row2) => row1 !== row2,
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
   section:{
     height:55,
     justifyContent: 'center',
+    paddingLeft: 15,
   },
   sectionText:{
     fontSize : 18,

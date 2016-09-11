@@ -7,14 +7,13 @@ import {
   View
 } from 'react-native';
 
-const FBSDK = require('react-native-fbsdk');
-const {
+import {
   LoginButton,
   ShareDialog,
   AccessToken,
   GraphRequest,
   GraphRequestManager,
-} = FBSDK;
+} from 'react-native-fbsdk';
 
 export default class LoginWithFB extends Component {
   constructor(props) {
@@ -44,15 +43,7 @@ export default class LoginWithFB extends Component {
                 alert('login has error: ' + result.error);
               } else if (result.isCancelled) {
                 alert('login is cancelled.');
-              } else {
-                // AccessToken.getCurrentAccessToken().then(
-                //   (data) => {
-                //     //alert(data.accessToken.toString())
-                //
-                //     this.props.navigator.replace({id: 'Simple', name: 'Welcome'})
-                //   }
-                // )
-
+              } else {  
                 // Create a graph request asking for user information with a callback to handle the response.
                 const infoRequest = new GraphRequest(
                   '/me',

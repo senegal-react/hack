@@ -13,6 +13,7 @@ import AppNavigator from './js/AppNavigator';
 import {UserRoute} from './js/routes/';
 import config from './config';
 
+const Root = require('./js/setup');
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer(config.graphqlURL, {
@@ -51,4 +52,4 @@ const styles = StyleSheet.create({
   },
 })
 
-AppRegistry.registerComponent('mi7', () => App);
+AppRegistry.registerComponent('mi7', () => Root);

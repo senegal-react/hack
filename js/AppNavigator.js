@@ -44,7 +44,7 @@ class AppNavigator extends Component {
   }
 
   async logIn(username: ?String, connected: ?Boolean){
-    AsyncStorage.setItem(UID_APP, 'true');
+    AsyncStorage.setItem(UID_APP, JSON.stringify({username, connected}));
     this.setState({
       username: username,
       connected: connected,
@@ -164,7 +164,7 @@ class AppNavigator extends Component {
 
   render() {
     return (
-      <SideMenu ref={'drawer'} onItemClick={this.handleItemClick.bind(this)} name={this.state.username} >
+      <SideMenu ref={'drawer'} onItemClick={this.handleItemClick.bind(this)} username={this.props.username} >
         <Navigator
           ref = "navigator"
           initialRoute={{ id: '', name: '', passProps: {}}}

@@ -32,9 +32,7 @@ class SideMenu extends Component{
   }
   _renderDrawerRow(item){
     return (
-      <TouchableHighlight
-      onPress = {() => this.sectionClick(item.id,item.name)}
-      >
+      <TouchableHighlight onPress = {() => this.sectionClick(item.id,item.name)} >
         <View style={styles.section}>
           <Text style={styles.sectionText}>{item.name}</Text>
         </View>
@@ -45,7 +43,7 @@ class SideMenu extends Component{
   _renderDrawerContent(){
     return (
         <View>
-          <Text> {this.props.name} </Text>
+          <Text style={styles.username}> {this.props.username} </Text>
           <ListView
             style={styles.drawerListViewStyle}
             dataSource={this.state.drawerDataSource}
@@ -76,10 +74,6 @@ class SideMenu extends Component{
        </DrawerLayoutAndroid>
    )
   }
-
-  componentWillMount(){
-
-  }
 }
 
 var styles = StyleSheet.create({
@@ -93,12 +87,21 @@ var styles = StyleSheet.create({
     fontSize : 18,
     textAlign : 'left',
     color: 'black',
+    paddingLeft: 5,
   },
   drawerListViewStyle :{
     paddingTop:40,
   },
   listStyle : {
     paddingTop : 20,
+  },
+  username:{
+    height: 120,
+    paddingTop: 20,
+    fontSize : 20,
+    textAlign: 'center',
+    backgroundColor: 'green',
+    color: 'white',
   }
 })
 

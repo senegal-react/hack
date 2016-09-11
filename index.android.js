@@ -31,13 +31,7 @@ class App extends Component {
 
   render() {
     const userRoute = new UserRoute();
-    //AsyncStorage.setItem(UID_APP, 'true');
-    AsyncStorage.getItem(UID_APP, (err, result) => {
-      console.log(result);
-      this.setState({
-        connected: result==='true',
-      })
-    });
+
 
     return (
         <RootContainer
@@ -46,7 +40,7 @@ class App extends Component {
           renderLoading={() => (<View style={styles.container}><Text>Loading...</Text></View>)
           }
           renderFetched={
-             (data) =>(<AppNavigator {...this.props} {...data} connected={this.state.connected} />)
+             (data) =>(<AppNavigator {...data} {...this.state} />)
           }
           renderFailure={function(error, retry) {
             return (<View><Text>{error.message}</Text></View>)
@@ -54,6 +48,16 @@ class App extends Component {
           forceFetch={false}
         />
     );
+  }
+
+  componentDidMount(){
+    AsyncStorage.getItem(UID_APP, (err, result) => {
+      const uid = JSON.parse(result);
+      this.setState({
+        connected: uid.connected,
+        username: uid.username,
+      })
+    });
   }
 }
 

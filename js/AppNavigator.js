@@ -8,6 +8,7 @@ import {
   View,
   Image,
   Animated,
+  AsyncStorage,
 } from 'react-native';
 import Relay from 'react-relay';
 
@@ -16,6 +17,10 @@ import {
   GraphRequestManager,
   AccessToken,
 } from 'react-native-fbsdk';
+
+import config from '../config';
+
+const UID_APP = config.uidKeyStore;
 
 import {Simple, Collection} from './components';
 
@@ -39,6 +44,7 @@ class AppNavigator extends Component {
   }
 
   async logIn(username: ?String, connected: ?Boolean){
+    AsyncStorage.setItem(UID_APP, 'true');
     this.setState({
       username: username,
       connected: connected,

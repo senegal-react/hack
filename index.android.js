@@ -7,6 +7,7 @@ import {
   View,
   Text,
   StyleSheet,
+  AsyncStorage,
 } from 'react-native';
 import Relay, {RootContainer} from 'react-relay';
 import AppNavigator from './js/AppNavigator';
@@ -21,9 +22,23 @@ Relay.injectNetworkLayer(
   })
 );
 
+const UID_APP = config.uidKeyStore;
+
 class App extends Component {
+  constructor(props){
+    super(props);
+  }
+
   render() {
     const userRoute = new UserRoute();
+    //AsyncStorage.setItem(UID_APP, 'true');
+    AsyncStorage.getItem(UID_APP, (err, result) => {
+      console.log(result);
+      this.setState({
+        connected: result==='true',
+      })
+    });
+
     return (
         <RootContainer
           Component={AppNavigator}
@@ -31,12 +46,12 @@ class App extends Component {
           renderLoading={() => (<View style={styles.container}><Text>Loading...</Text></View>)
           }
           renderFetched={
-             (data) =>(<AppNavigator {...this.props} {...data} connected={true} />)
+             (data) =>(<AppNavigator {...this.props} {...data} connected={this.state.connected} />)
           }
           renderFailure={function(error, retry) {
             return (<View><Text>{error.message}</Text></View>)
           }}
-          forceFetch={true}
+          forceFetch={false}
         />
     );
   }
